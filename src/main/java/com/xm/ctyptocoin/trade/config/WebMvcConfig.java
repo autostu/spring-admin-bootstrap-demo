@@ -13,5 +13,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
         registry.addViewController("/").setViewName("login");
+        registry.addViewController("/index").setViewName("index");
+//        registry.addViewController("/main").setViewName("main");
+//        registry.addViewController("/main.html").setViewName("main");
+        registry.addViewController("/5xx").setViewName("error/5xx");
+        registry.addViewController("/404").setViewName("error/404");
     }
+
+//    @Bean
+//    public AdminInterceptor adminInterceptor(){
+//        return new AdminInterceptor();
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(adminInterceptor()).addPathPatterns("/admin/**");
+//        super.addInterceptors(registry);
+//    }
 }

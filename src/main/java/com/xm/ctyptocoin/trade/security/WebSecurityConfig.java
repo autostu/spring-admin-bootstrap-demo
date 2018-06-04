@@ -1,5 +1,6 @@
 package com.xm.ctyptocoin.trade.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,6 +20,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //使用@EnableGlobalMethodSecurity(prePostEnabled = true)
 // 这个注解，可以开启security的注解，我们可以在需要控制权限的方法上面使用@PreAuthorize，@PreFilter这些注解。
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+//    CustomSuccessHandler customSuccessHandler;
+
     @Override
     @Bean
     public UserDetailsService userDetailsService() { //覆盖写userDetailsService方法 (1)
@@ -60,8 +65,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ).permitAll() //默认不拦截静态资源的url pattern （2）
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login")// 登录url请求路径 (3)
+//                .successHandler(customSuccessHandler)
                 .defaultSuccessUrl("/index").failureUrl("/login?error").permitAll().and() // 登录成功跳转路径url(4)
-                .logout().permitAll();
+                .logout().permitAll()
+//                .and().exceptionHandling().accessDeniedPage("/Access_Denied")
+                ;
 
         http.logout().logoutSuccessUrl("/"); // 退出默认跳转页面 (5)
 
@@ -81,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //    .withUser("user").password("user")
         //    .roles("USER");
 
-        //AuthenticationManager使用我们的 lightSwordUserDetailService 来获取用户信息
+
         auth.userDetailsService(userDetailsService()).passwordEncoder(new BCryptPasswordEncoder());; // （6）
     }
 

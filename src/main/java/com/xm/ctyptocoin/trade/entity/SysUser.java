@@ -3,6 +3,7 @@ package com.xm.ctyptocoin.trade.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,8 @@ import java.util.List;
  */
 @Entity
 @Data
-public class SysUser {
+// java.io.NotSerializableException tomcat停止时，保存session资源，然后在重启服务后，会尝试恢复session
+public class SysUser implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
